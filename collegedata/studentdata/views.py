@@ -29,4 +29,24 @@ def departmentApi(request, id=0):
             }       
             return df
              
+    if request.method == 'POST':
+        print("$$$$$Inside DepartmentApi POSTRequest")
+        try:
+            # department_data = JSONParser().parse(request)
+            print("request_____data",request.data)
+            department_serializer = DepartmentsSerializer(data=request.data)
+            print("department_serializer",department_serializer)
+            if department_serializer.is_valid():
+                department_serializer.save()
+                print("reached")
+                return Response(department_serializer.data,status = status.HTTP_201_CREATED)
+            return Response("Failed to Add the POST Request", safe=False)
+        except Exception as e:
+            print("error---------")
+            df = {
+                "Error_Message" : "Something went wrong in DepartmentAPI POST METHOD",
+                "Error" : e
+            }
+            
+            return df
       
