@@ -28,6 +28,8 @@ def departmentApi(request, id=0):
                 "Error" : e
             }       
             return df
+   
+   
              
     if request.method == 'POST':
         print("$$$$$Inside DepartmentApi POSTRequest")
@@ -49,4 +51,21 @@ def departmentApi(request, id=0):
             }
             
             return df
-      
+        
+        
+
+
+    if request.method == 'DELETE':
+        try:
+            department_data = Departments.objects.get(pk=id)
+            department_data.delete()
+            return redirect('/department')
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in DepartmentAPI DELETE METHOD",
+                "Error" : e
+            }
+            
+            return df        
+
+
