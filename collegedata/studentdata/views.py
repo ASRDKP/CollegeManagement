@@ -101,3 +101,18 @@ def studentDetailsApi(request, id=0):
             
     
   
+    if request.method == 'DELETE':
+        print("$$$$$Inside studentDetailsApi DELETE Request")
+        try:
+            studentDetails_data = StudentDetails.objects.get(pk=id) 
+            print("#####StudentDetails_data :",studentDetails_data)         
+            studentDetails_data.delete()
+            print("@@@@@@@@")
+            return redirect('/studentDetails')
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in studentDetailsApi DELETE METHOD",
+                "Error" : e
+            }
+            
+            
