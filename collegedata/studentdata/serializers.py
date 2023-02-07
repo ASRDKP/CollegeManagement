@@ -12,7 +12,7 @@ class DepartmentsSerializer(serializers.ModelSerializer):
 class StudentDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentDetails
-        fields = '__all__'
+        fields = ['RollNo','StudentName','Department','Year','Batch']
 
 
 class FacultiesSerializer(serializers.ModelSerializer):

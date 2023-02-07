@@ -62,25 +62,25 @@ def departmentApi(request, id=0):
 
 
 
+
+
 @csrf_exempt
-@api_view(['GET','POST','DELETE','PUT'])
+@api_view(['GET','POST','DELETE'])
 def studentDetailsApi(request, id=0):
-    print("$$$$$Inside studentDetailsApi")
     if request.method == 'GET':
-        print("$$$$$Inside studentDetailsApi GetRequest")
         try:
             studentDetails_data = StudentDetails.objects.all() 
-            print("StudentDetails_data :",studentDetails_data)
             studentDetails_serializer = StudentDetailsSerializer(studentDetails_data,many=True)
-            print("studentDetails_serializer :", studentDetails_serializer.data)
-            return Response(studentDetails_serializer.data,safe=False)
+            return JsonResponse(studentDetails_serializer.data,safe=False)
         except Exception as e:
             df = {
                 "Error_Message" : "Something went wrong in studentDetailsApi GET METHOD",
                 "Error" : e
             }       
             return df
-            
+
+
+
     if request.method == 'POST':
         print("$$$$$Inside StudentDetailsApi POSTRequest")
         try:
