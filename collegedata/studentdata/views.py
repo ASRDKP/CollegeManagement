@@ -66,14 +66,10 @@ def departmentApi(request, id=None):
 @csrf_exempt
 @api_view(['GET','POST','DELETE'])
 def studentDetailsApi(request, id=0):
-    print("$$$$$Inside studentDetailsApi")
     if request.method == 'GET':
-        print("$$$$$Inside studentDetailsApi GetRequest")
         try:
             studentDetails_data = StudentDetails.objects.all() 
-            print("StudentDetails_data :",studentDetails_data)
             studentDetails_serializer = StudentDetailsSerializer(studentDetails_data,many=True)
-            print("studentDetails_serializer :", studentDetails_serializer.data)
             return JsonResponse(studentDetails_serializer.data,safe=False)
         except Exception as e:
             df = {
@@ -83,14 +79,10 @@ def studentDetailsApi(request, id=0):
             return df
       
     if request.method == 'POST':
-        print("$$$$$Inside studentDetailsApi POST Request")
         try:
             studentDetails_serializer = StudentDetailsSerializer(data = request.data)
-            print("StudentDetails_serializer :",studentDetails_serializer)
             if studentDetails_serializer.is_valid():
-                print("Inside POST if")
                 studentDetails_serializer.save()
-                print("Saved Successfulll")
                 return Response(studentDetails_serializer.data, status = status.HTTP_201_CREATED)
             return Response("Failed to Add the POST Request", safe=False)
         except Exception as e:
@@ -102,12 +94,9 @@ def studentDetailsApi(request, id=0):
     
   
     if request.method == 'DELETE':
-        print("$$$$$Inside studentDetailsApi DELETE Request")
         try:
             studentDetails_data = StudentDetails.objects.get(pk=id) 
-            print("#####StudentDetails_data :",studentDetails_data)         
             studentDetails_data.delete()
-            print("@@@@@@@@")
             return redirect('/studentDetails')
         except Exception as e:
             df = {
