@@ -82,3 +82,22 @@ def studentDetailsApi(request, id=0):
             }       
             return df
       
+    if request.method == 'POST':
+        print("$$$$$Inside studentDetailsApi POST Request")
+        try:
+            studentDetails_serializer = StudentDetailsSerializer(data = request.data)
+            print("StudentDetails_serializer :",studentDetails_serializer)
+            if studentDetails_serializer.is_valid():
+                print("Inside POST if")
+                studentDetails_serializer.save()
+                print("Saved Successfulll")
+                return Response(studentDetails_serializer.data, status = status.HTTP_201_CREATED)
+            return Response("Failed to Add the POST Request", safe=False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in studentDetailsApi POST METHOD",
+                "Error" : e
+            }
+            
+    
+  
