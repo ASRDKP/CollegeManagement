@@ -29,7 +29,6 @@ def departmentApi(request, id=None):
 
              
     if request.method == 'POST':
-        print("$$$$$Inside DepartmentApi POSTRequest")
         try:
             department_serializer = DepartmentsSerializer(data=request.data)
             if department_serializer.is_valid():
@@ -63,6 +62,7 @@ def departmentApi(request, id=None):
 
 
 
+
 @csrf_exempt
 @api_view(['GET','POST','DELETE'])
 def studentDetailsApi(request, id=0):
@@ -77,7 +77,8 @@ def studentDetailsApi(request, id=0):
                 "Error" : e
             }       
             return df
-      
+        
+        
     if request.method == 'POST':
         try:
             studentDetails_serializer = StudentDetailsSerializer(data = request.data)
@@ -89,7 +90,8 @@ def studentDetailsApi(request, id=0):
             df = {
                 "Error_Message" : "Something went wrong in studentDetailsApi POST METHOD",
                 "Error" : e
-            }
+            }    
+            return df
             
     
   
@@ -100,8 +102,62 @@ def studentDetailsApi(request, id=0):
             return redirect('/studentDetails')
         except Exception as e:
             df = {
-                "Error_Message" : "Something went wrong in studentDetailsApi DELETE METHOD",
+                "Error_Message" : "Something went wrong in StudentDetailsAPI DELETE METHOD",
                 "Error" : e
             }
             
+            return df        
+
+
+
+
+
+
+
+@csrf_exempt
+@api_view(['GET','POST','DELETE'])
+def facultiesApi(request, id=None):
+    if request.method == 'GET':
+        try:
+            faculties_data = Faculties.objects.all()
+            print("faculties_data : "), faculties_data
+            faculties_serializer = FacultiesSerializer(faculties_data,many=True)
+            print("faculties_serializer : ", faculties_serializer)
+            return JsonResponse(faculties_serializer.data,safe=False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in facultiesApi GET METHOD",
+                "Error" : e
+            }
+            return df
+        
+        
+    if request.method == 'POST':
+        try:
+            faculties_serializer = FacultiesSerializer(data=request.data)
+            if faculties_serializer.is_valid():
+                faculties_serializer.save()
+                return Response(faculties_serializer.data, status = status.HTTP_201_CREATED)
+            return Response("Failed to Add the POST Request", safe=False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in facultiesApi POST METHOD",
+                "Error" : e
+            }
+            return df
+        
+        
+    if request.method == 'DELETE':
+        try:
+            faculties_data = Faculties.objects.get(FacultieId=id)
+            faculties_data.delete()
+            return redirect('/faculties')
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in facultiesApi DELETE METHOD",
+                "Error" : e
+            }
+
             
+            
+
