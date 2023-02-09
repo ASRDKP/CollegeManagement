@@ -28,7 +28,6 @@ def departmentApi(request, id=0):
    
              
     if request.method == 'POST':
-        print("$$$$$Inside DepartmentApi POSTRequest")
         try:
             department_serializer = DepartmentsSerializer(data=request.data)
             if department_serializer.is_valid():
@@ -82,7 +81,6 @@ def studentDetailsApi(request, id=0):
 
 
     if request.method == 'POST':
-        print("$$$$$Inside StudentDetailsApi POSTRequest")
         try:
             studentDetails_serializer = StudentDetailsSerializer(data=request.data)
             if studentDetails_serializer.is_valid():
@@ -100,7 +98,7 @@ def studentDetailsApi(request, id=0):
         try:
             studentDetails_data = StudentDetails.objects.get(RollNo=id)
             studentDetails_data.delete()
-            return JsonResponse("Successfully Deleted")
+            return redirect('/studentDetails')
         except Exception as e:
             df = {
                 "Error_Message" : "Something went wrong in StudentDetailsAPI DELETE METHOD",
@@ -120,7 +118,6 @@ def studentDetailsApi(request, id=0):
 def facultiesApi(request, id=None):
     if request.method == 'GET':
         try:
-            print("$$$$$Inside facultiesApi GET Request")
             faculties_data = Faculties.objects.all()
             print("faculties_data : "), faculties_data
             faculties_serializer = FacultiesSerializer(faculties_data,many=True)
@@ -151,7 +148,7 @@ def facultiesApi(request, id=None):
         
     if request.method == 'DELETE':
         try:
-            faculties_data = Faculties.objects.get(pk=id)
+            faculties_data = Faculties.objects.get(FacultieId=id)
             faculties_data.delete()
             return redirect('/faculties')
         except Exception as e:

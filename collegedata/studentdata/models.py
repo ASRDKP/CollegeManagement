@@ -11,7 +11,7 @@ class StudentDetails(models.Model):
     Department = models.ForeignKey(Departments, on_delete=models.CASCADE)
     Year = models.IntegerField(null=True)
     Batch = models.IntegerField(null=True)
-    DOB = models.DateTimeField(null=True)
+    DOB = models.DateField(null=True)
     
 class Faculties(models.Model):
     FacultieId  = models.AutoField(primary_key=True)
