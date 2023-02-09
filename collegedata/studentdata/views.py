@@ -11,9 +11,9 @@ from studentdata.serializers import DepartmentsSerializer, StudentDetailsSeriali
 # Create your views here.
 
 @csrf_exempt
-@api_view(['GET','POST','DELETE','PUT'])
-def departmentApi(request, id=0):
-    if request.method == 'GET':
+@api_view(['GET','POST','DELETE'])
+def departmentApi(request, id=None):
+    if request.method == 'GET' and id == None:
         try:
             departments_data = Departments.objects.all() 
             department_serializer = DepartmentsSerializer(departments_data,many=True)
@@ -24,8 +24,9 @@ def departmentApi(request, id=0):
                 "Error" : e
             }       
             return df
-   
-   
+        
+        
+
              
     if request.method == 'POST':
         try:
@@ -43,7 +44,6 @@ def departmentApi(request, id=0):
             return df
         
         
-
 
     if request.method == 'DELETE':
         try:
@@ -77,26 +77,27 @@ def studentDetailsApi(request, id=0):
                 "Error" : e
             }       
             return df
-
-
-
+        
+        
     if request.method == 'POST':
         try:
-            studentDetails_serializer = StudentDetailsSerializer(data=request.data)
+            studentDetails_serializer = StudentDetailsSerializer(data = request.data)
             if studentDetails_serializer.is_valid():
                 studentDetails_serializer.save()
-                return Response(studentDetails_serializer.data,status = status.HTTP_201_CREATED)
-            return JsonResponse("Failed to Add the POST Request", safe=False)
+                return Response(studentDetails_serializer.data, status = status.HTTP_201_CREATED)
+            return Response("Failed to Add the POST Request", safe=False)
         except Exception as e:
             df = {
                 "Error_Message" : "Something went wrong in studentDetailsApi POST METHOD",
                 "Error" : e
             }    
             return df
-        
+            
+    
+  
     if request.method == 'DELETE':
         try:
-            studentDetails_data = StudentDetails.objects.get(RollNo=id)
+            studentDetails_data = StudentDetails.objects.get(pk=id) 
             studentDetails_data.delete()
             return redirect('/studentDetails')
         except Exception as e:
@@ -156,3 +157,7 @@ def facultiesApi(request, id=None):
                 "Error_Message" : "Something went wrong in facultiesApi DELETE METHOD",
                 "Error" : e
             }
+
+            
+            
+

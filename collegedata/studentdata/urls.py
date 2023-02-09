@@ -13,4 +13,5 @@ urlpatterns = [
     path('faculties/<int:id>/',views.facultiesApi),
     # re_path(r'^faculties/(?P<id>\d+)',views.facultiesApi),
     # path('faculties/<id>', views.facultiesApi),   
+
 ]

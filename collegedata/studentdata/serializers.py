@@ -15,13 +15,16 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
         fields = ['RollNo','StudentName','Department','Year','Batch','DOB']
 
 
+
 class FacultiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faculties
-        fields = ['FacultieId', 'FacultieName', 'Department', 'Salary', 'DateOfJoining']
+        fields = ['FacultieId','FacultieName','Department','Salary','DateOfJoining']
         
         
-        
+    
+    
+
         
         
     
