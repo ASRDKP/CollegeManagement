@@ -90,7 +90,20 @@ def studentDetailsApi(request, id=0):
             }       
             return df
         
-    
+
+
+
+    if request.method == 'GET' and id != 0:
+        try:
+            studentDetails_data = StudentDetails.objects.get(pk=id)
+            studentDetails_serializer = StudentDetailsSerializer(studentDetails_data)
+            return JsonResponse(studentDetails_serializer.data,safe=False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in studentDetailsApi GET METHOD",
+                "Error" : e
+            }       
+            return df
         
         
     if request.method == 'POST':
