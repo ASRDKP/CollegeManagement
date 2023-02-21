@@ -55,7 +55,25 @@ def departmentApi(request, id=None):
             }
             
             return df
-    
+
+
+    if request.method == 'PUT':
+            try:
+                department_data = Departments.objects.get(pk=id)
+                department_serializer = DepartmentsSerializer(department_data, data=request.data)
+                if department_serializer.is_valid():
+                    department_serializer.save()
+                    return Response("Updated department data", status=status.HTTP_201_CREATED)
+                return Response("Failed to update department data", safe=False)
+            except Exception as e:
+                df = {
+                    "Error_Message" : "Something went wrong in DepartmentAPI POST METHOD",
+                    "Error" : e
+                }
+                
+                return df
+
+
     
     if request.method == 'DELETE':
         try:
@@ -76,7 +94,7 @@ def departmentApi(request, id=None):
 
 
 @csrf_exempt
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST','DELETE','PUT'])
 def studentDetailsApi(request, id=0):
     if request.method == 'GET' and id == 0:
         try:
@@ -119,6 +137,23 @@ def studentDetailsApi(request, id=0):
                 "Error" : e
             }    
             return df
+
+            
+    if request.method == 'PUT':
+        try:
+            studentDetails_data = StudentDetails.objects.get(pk=id) 
+            studentDetails_serializer = StudentDetailsSerializer(studentDetails_data, data=request.data)
+            if studentDetails_serializer.is_valid():
+                studentDetails_serializer.save()
+                return Response(studentDetails_serializer.data, status = status.HTTP_201_CREATED)
+            return Response("Failed to Update Data", safe = False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in studentDetailsApi POST METHOD",
+                "Error" : e
+            }    
+            return df
+            
             
     
     if request.method == 'DELETE':
