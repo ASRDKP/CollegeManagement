@@ -26,7 +26,20 @@ def departmentApi(request, id=None):
             }       
             return df
         
+    if request.method == 'GET' and id != None:
+        try:
+            print("Inside GET method with id parameter")
+            department_data = Departments.objects.get(pk=id)
+            print("Department Id:",id)
+            department_serializer = DepartmentsSerializer(department_data)
+            return JsonResponse(department_serializer.data,safe=False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in DepartmentAPI GET METHOD",
+                "Error" : e
+            }
 
+            return df
              
     if request.method == 'POST':
         try:
