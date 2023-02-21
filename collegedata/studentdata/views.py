@@ -7,14 +7,15 @@ from rest_framework.response import Response
 from rest_framework import status 
 from rest_framework.decorators import api_view
 from studentdata.serializers import DepartmentsSerializer, StudentDetailsSerializer, FacultiesSerializer
-
+from rest_framework.parsers import JSONParser
 # Create your views here.
 
 @csrf_exempt
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST','DELETE','PUT'])
 def departmentApi(request, id=None):
     if request.method == 'GET' and id == None:
         try:
+            print("Inside GET method without id parameter")
             departments_data = Departments.objects.all() 
             department_serializer = DepartmentsSerializer(departments_data,many=True)
             return JsonResponse(department_serializer.data,safe=False)
@@ -24,7 +25,6 @@ def departmentApi(request, id=None):
                 "Error" : e
             }       
             return df
-        
         
 
              
@@ -42,9 +42,8 @@ def departmentApi(request, id=None):
             }
             
             return df
-        
-        
-
+    
+    
     if request.method == 'DELETE':
         try:
             department_data = Departments.objects.get(pk=id)
@@ -66,7 +65,7 @@ def departmentApi(request, id=None):
 @csrf_exempt
 @api_view(['GET','POST','DELETE'])
 def studentDetailsApi(request, id=0):
-    if request.method == 'GET':
+    if request.method == 'GET' and id == 0:
         try:
             studentDetails_data = StudentDetails.objects.all() 
             studentDetails_serializer = StudentDetailsSerializer(studentDetails_data,many=True)
@@ -77,6 +76,8 @@ def studentDetailsApi(request, id=0):
                 "Error" : e
             }       
             return df
+        
+    
         
         
     if request.method == 'POST':
@@ -94,7 +95,6 @@ def studentDetailsApi(request, id=0):
             return df
             
     
-  
     if request.method == 'DELETE':
         try:
             studentDetails_data = StudentDetails.objects.get(pk=id) 
@@ -117,10 +117,10 @@ def studentDetailsApi(request, id=0):
 @csrf_exempt
 @api_view(['GET','POST','DELETE'])
 def facultiesApi(request, id=None):
-    if request.method == 'GET':
+    if request.method == 'GET' and id == None:
         try:
             faculties_data = Faculties.objects.all()
-            print("faculties_data : "), faculties_data
+            print("faculties_data : ", faculties_data)
             faculties_serializer = FacultiesSerializer(faculties_data,many=True)
             print("faculties_serializer : ", faculties_serializer)
             return JsonResponse(faculties_serializer.data,safe=False)
@@ -131,6 +131,17 @@ def facultiesApi(request, id=None):
             }
             return df
         
+    if request.method == 'GET' and id != None:
+        try:
+            faculties_data = Faculties.objects.get(pk=id)
+            faculties_serializer = FacultiesSerializer(faculties_data)
+            return JsonResponse(faculties_serializer.data,safe=True)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in facultiesApi GET METHOD",
+                "Error" : e
+            }
+            return df       
         
     if request.method == 'POST':
         try:
@@ -158,6 +169,7 @@ def facultiesApi(request, id=None):
                 "Error" : e
             }
 
+            return df
             
             
 
