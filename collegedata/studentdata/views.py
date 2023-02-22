@@ -176,7 +176,7 @@ def studentDetailsApi(request, id=0):
 
 
 @csrf_exempt
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST','DELETE','PUT'])
 def facultiesApi(request, id=None):
     if request.method == 'GET' and id == None:
         try:
@@ -203,7 +203,8 @@ def facultiesApi(request, id=None):
                 "Error" : e
             }
             return df       
-        
+      
+    
     if request.method == 'POST':
         try:
             faculties_serializer = FacultiesSerializer(data=request.data)
@@ -217,7 +218,21 @@ def facultiesApi(request, id=None):
                 "Error" : e
             }
             return df
-        
+    
+    if request.method == 'PUT':
+        try:
+            faculties_data = Faculties.objects.get(pk=id)
+            faculties_serializer = FacultiesSerializer(faculties_data, data=request.data)
+            if faculties_serializer.is_valid():
+                faculties_serializer.save()
+                return Response(faculties_serializer.data, status = status.HTTP_201_CREATED)
+            return Response("Failed to Update Data", safe = False)
+        except Exception as e:
+            df = {
+                "Error_Message" : "Something went wrong in facultiesApi GET METHOD",
+                "Error" : e
+            }
+            return df      
         
     if request.method == 'DELETE':
         try:
