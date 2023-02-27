@@ -123,7 +123,91 @@ class test_DepartmentsTest(TestCase):
             
             
             
+
+
+
+
+
+
+
+
+
+
+
+
+### Student Test Cases        
             
+class test_StudentDetailsTest(TestCase):
+    
+    def setUp(self):
+        print("Setup Called")
+        
+   
+   
+        
+    def test_studentDetails(self):
+        try:
+            print("Testing student details")
+            
+            sNames = ['Rahul', 'Rohan', 'Ishita', 'Sanjana']
+            
+            for sName in sNames:
+                obj = StudentDetails.objects.create(
+                    StudentName = sName
+                )
+                
+                self.assertEquals(sName, obj.StudentName)
+                
+            objs = StudentDetails.objects.all()
+            
+            self.assertEquals(objs.count(), 4)
+        
+        except Exception as e:
+            print("Error in test_studentDetails :", e)
+            
+            
+            
+    def test_full_StudentDetails(self):
+        try:
+            print("Testing Full Student Details")
+            
+            rNos = ['36','12','15']
+            sNames = ['Rahul','Ishita', 'Rakesh']
+            dNames = ["02","02","01"]
+            years = [2016,2016,2016]
+            batch = [2019, 2019, 2019]
+            dobs = ["2001-07-04","2001-06-01","2001-12-10"]
+            
+            for i in range(3):
+                obj = StudentDetails.objects.create(
+                    RollNo = rNos[i],
+                    StudentName = sNames[i],
+                    Department = dNames[i],
+                    Year = years[i],
+                    Batch = batch[i],
+                    DOB = dobs[i]
+                )
+                
+                self.assertEquals(rNos[i], obj.RollNo)
+                self.assertEquals(sNames[i], obj.StudentName)
+                self.assertEquals(dNames[i], obj.Department)
+                self.assertEquals(years[i], obj.Year)
+                self.assertEquals(dobs[i], obj.DOB)
+                
+            objs = StudentDetails.objects.all()
+            
+            self.assertEquals(objs.count(), 3)
+
+        except Exception as e:
+            print("Error in test_full_StudentDetails :", e) 
+            
+            
+
+
+
+
+
+
             
             
             
