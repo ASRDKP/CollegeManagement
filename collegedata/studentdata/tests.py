@@ -211,4 +211,69 @@ class test_StudentDetailsTest(TestCase):
             
             
             
+
+
+
+
+##### Faculties Test Cases
+
+class test_Faculties(TestCase):
+    
+    def setUp(self):
+        print("Setup Called")
+        
+    def test_faculties(self):
+        try:
+            print("Testing faculties")
+            
+            fNames = ['Radheshyam', 'Avijith', 'Amit']
+            
+            for fName in fNames:
+                obj = Faculties.objects.create(
+                    FacultieName = fName
+                )
+                
+                self.assertEquals(fName, obj.FacultieName)
+                
+            objs = Faculties.objects.all()
+            
+            self.assertEquals(objs.count(), 3)
+            
+        except Exception as e:
+            print("Error in test_faculties :", e)
+
+            
+
+    def test_full_faculties(self):
+        try:
+            print("Testing Full Faculties")  
+            
+            fids = [136,120, 11]
+            fnames = ['Radheshyam', 'Avijith','Surender']
+            dept = ["02","02","01"]
+            salaries = [60000, 55000, 20000]
+            doj = ["2016-08-15","2016-08-15","2016-08-15"]
+            
+            for i in range(3):
+                obj = Faculties.objects.create(
+                    FacultieId = fids[i],
+                    FacultieName = fnames[i],
+                    Department = dept[i],
+                    Salary = salaries[i],
+                    DateOfJoining = doj[i]
+                )
+                
+                self.assertEquals(fids[i], obj.FacultieId)
+                self.assertEquals(fnames[i], obj.FacultieName)
+                self.assertEquals(dept[i], obj.Department)
+                self.assertEquals(salaries[i], obj.Salary)
+                self.assertEquals(doj[i], obj.DateOfJoining)
+                
+            objs = Faculties.objects.all()
+            
+            self.assertEquals(objs.count(), 3)
+            
+        except Exception as e:
+            print("Error in test_full_faculties :", e) 
+            
             
